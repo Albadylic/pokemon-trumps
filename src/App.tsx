@@ -1,24 +1,43 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useEffect, useState } from "react";
+import "./App.css";
+import Card from "./components/Card";
+
+// import getPokemon from "./tools/getPokemon";
 
 function App() {
+  const [apiData, setApiData] = useState(null);
+
+  function randomID() {
+    return Math.floor(Math.random() * 151);
+  }
+
+  useEffect(() => {
+    async function getPokemon() {
+      const id: string = String(randomID());
+      const url: string = `https://pokeapi.co/api/v2/pokemon/${id}`;
+
+      try {
+        const response = await fetch(url);
+
+        if (!response.ok) {
+          throw new Error("Bad response");
+        }
+        const data = await response.json();
+        setApiData(data);
+      } catch (error) {
+        console.error("Error fetching data: ", error);
+      }
+    }
+
+    getPokemon();
+  }, []);
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <h1>Pokémon top trumps</h1>
       </header>
+      {apiData && <Card data={apiData} />}
     </div>
   );
 }
