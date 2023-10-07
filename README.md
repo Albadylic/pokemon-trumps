@@ -1,46 +1,33 @@
-# Getting Started with Create React App
+# Pokémon Top Trumps
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+- Card game
+- Compare stats
+- Higher stat wins
+- Using Pokemon API, TypeScript, React
 
-## Available Scripts
+## useEffect
 
-In the project directory, you can run:
+in the API call, we need to wait for data to come back
+Once it has, we can render a card
 
-### `npm start`
+We'll do this twice, once for the user and once for opponent
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+UseEffect will run before the component is rendered, grabbing data ready for when it does render
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+We wrap our fetch call in the useEffect, with a state to hold the data once it has come back
 
-### `npm test`
+async await is crucial with fetch, we need the promise to resolve before we can use the data
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Architecture
 
-### `npm run build`
+I started with the useEffect in the App layer, I want to move it down out of this and use App for the main page structure
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+App will hold a state for whether the game has started, and the main components.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- Header
+- Play Button / Game Board
+- Footer
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Double load issue
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+When the cards render, the useEffect runs twice. One pokemon appears briefly before a second is rendered
