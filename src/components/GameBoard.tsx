@@ -6,10 +6,20 @@ interface GameBoardProps {
   setGameStarted: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
+interface playerChoiceType {
+  playerChoiceName: string | null;
+  playerChoiceValue: number | null;
+}
+
 const GameBoard: FC<GameBoardProps> = ({ setGameStarted }) => {
   const [playerPokemon, setPlayerPokemon] = useState(null);
   const [opponentPokemon, setOpponentPokemon] = useState(null);
-  const [playerChoice, setPlayerChoice] = useState<string | null>(null);
+  const [playerChoice, setPlayerChoice] = useState<playerChoiceType | null>(
+    null
+  );
+  const [gameOutcome, setGameOutcome] = useState<string | null>(null);
+
+  console.log(playerChoice);
 
   function randomID() {
     return Math.floor(Math.random() * 151);
@@ -53,10 +63,14 @@ const GameBoard: FC<GameBoardProps> = ({ setGameStarted }) => {
       )}
 
       {opponentPokemon && (
-        <OpponentCard data={opponentPokemon} playerChoice={playerChoice} />
+        <OpponentCard
+          data={opponentPokemon}
+          playerChoice={playerChoice}
+          setGameOutcome={setGameOutcome}
+        />
       )}
 
-      {playerChoice && (
+      {gameOutcome && (
         <div>
           <p>You won / lost</p>
           <button onClick={() => setGameStarted(false)}>Play again</button>

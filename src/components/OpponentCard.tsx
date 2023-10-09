@@ -1,8 +1,14 @@
 import { FC } from "react";
 
+interface playerChoiceType {
+  playerChoiceName: string | null;
+  playerChoiceValue: number | null;
+}
+
 interface CardProps {
   data: apiShape;
-  playerChoice: string | null;
+  playerChoice: playerChoiceType | null;
+  setGameOutcome: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
 interface apiShape {
@@ -19,7 +25,16 @@ interface apiShape {
   types: object[];
 }
 
-const OpponentCard: FC<CardProps> = ({ data, playerChoice }) => {
+const OpponentCard: FC<CardProps> = ({
+  data,
+  playerChoice,
+  setGameOutcome,
+}) => {
+  const compareValues = () => {
+    // Compare the value of the player's chosen stat to that of the opponent
+    // setGameOutcome to win / lose
+  };
+
   const stats = data.stats.map((item, index) => {
     return playerChoice ? (
       <span key={index} className="opponent_stat">
@@ -33,6 +48,7 @@ const OpponentCard: FC<CardProps> = ({ data, playerChoice }) => {
       </span>
     );
   });
+
   return (
     <article className="Card_container">
       <h2>{data.name}</h2>

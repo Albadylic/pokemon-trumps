@@ -1,8 +1,15 @@
 import { FC } from "react";
 
+interface playerChoiceType {
+  playerChoiceName: string | null;
+  playerChoiceValue: number | null;
+}
+
 interface CardProps {
   data: apiShape;
-  setPlayerChoice: React.Dispatch<React.SetStateAction<string | null>>;
+  setPlayerChoice: React.Dispatch<
+    React.SetStateAction<playerChoiceType | null>
+  >;
 }
 
 interface apiShape {
@@ -25,7 +32,12 @@ const PlayerCard: FC<CardProps> = ({ data, setPlayerChoice }) => {
       <span
         key={index}
         className="player_stat"
-        onClick={() => setPlayerChoice(item.stat.name)}
+        onClick={() =>
+          setPlayerChoice({
+            playerChoiceName: item.stat.name,
+            playerChoiceValue: item.base_stat,
+          })
+        }
       >
         <p>
           {item.stat.name}: {item.base_stat}

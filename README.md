@@ -152,3 +152,5 @@ We can compare the stats with use of a playerChoice state, but we'd need it to h
 We would then need to pass up a value to determine the result and display that on the page. We'd like to offer an option to play again.
 
 The problem here, is that we'd need to drill the `setGameStarted` state updater down to the GameBoard.
+
+I decided to have two states, one for the playerchoice and one for the gameoutcome
