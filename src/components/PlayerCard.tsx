@@ -2,6 +2,7 @@ import { FC } from "react";
 
 interface CardProps {
   data: apiShape;
+  setPlayerChoice: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
 interface apiShape {
@@ -18,10 +19,14 @@ interface apiShape {
   types: object[];
 }
 
-const Card: FC<CardProps> = ({ data }) => {
+const PlayerCard: FC<CardProps> = ({ data, setPlayerChoice }) => {
   const stats = data.stats.map((item, index) => {
     return (
-      <span key={index} className="player_stat">
+      <span
+        key={index}
+        className="player_stat"
+        onClick={() => setPlayerChoice(item.stat.name)}
+      >
         <p>
           {item.stat.name}: {item.base_stat}
         </p>
@@ -38,4 +43,4 @@ const Card: FC<CardProps> = ({ data }) => {
   );
 };
 
-export default Card;
+export default PlayerCard;

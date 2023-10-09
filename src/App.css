@@ -19,3 +19,11 @@
 .player_stat :hover {
   background-color: lightgreen;
 }
+
+.GameBoard {
+  display: flex;
+}
+
+.GameBoard > article {
+  width: 45%;
+}

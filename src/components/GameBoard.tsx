@@ -1,8 +1,10 @@
 import { FC, useState, useEffect } from "react";
-import Card from "./Card";
+import PlayerCard from "./PlayerCard";
+import OpponentCard from "./OpponentCard";
 
 const GameBoard: FC = () => {
   const [apiData, setApiData] = useState(null);
+  const [playerChoice, setPlayerChoice] = useState<string | null>(null);
 
   function randomID() {
     return Math.floor(Math.random() * 151);
@@ -31,14 +33,11 @@ const GameBoard: FC = () => {
 
   return (
     <section className="GameBoard">
-      {apiData && <Card data={apiData} />}
-      {/* 
-      
-      Separate component to be made for the opponentCard vs. the above playerCard
-      
-      {apiData && <Card data={apiData} />}
-      
-      */}
+      {apiData && (
+        <PlayerCard data={apiData} setPlayerChoice={setPlayerChoice} />
+      )}
+
+      {apiData && <OpponentCard data={apiData} playerChoice={playerChoice} />}
     </section>
   );
 };
