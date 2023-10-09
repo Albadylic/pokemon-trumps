@@ -4,16 +4,17 @@ import "./App.css";
 import Header from "./components/Header";
 import GameBoard from "./components/GameBoard";
 
-interface PlayButtonType extends FC {
+interface PlayButtonProps {
   setGameStarted: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const PlayButton = (setGameStarted: any) => {
+const PlayButton: FC<PlayButtonProps> = ({ setGameStarted }) => {
   return <button onClick={() => setGameStarted(true)}>Play</button>;
 };
 
 const App: FC = () => {
   const [gameStarted, setGameStarted] = useState(false);
+
   return (
     <div className="App">
       <Header />

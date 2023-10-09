@@ -31,3 +31,11 @@ App will hold a state for whether the game has started, and the main components.
 ## Double load issue
 
 When the cards render, the useEffect runs twice. One pokemon appears briefly before a second is rendered
+
+## Destructuring
+
+When definining a React Component, we need to destructure props. Why is this?
+
+Destructuring is a convenient way to access specific properties from an object, in this case, the props object. It makes the code more readable and can save you from typing props. multiple times. However, it's not required – you can always use props.name if you prefer.
+
+Remember that props are passed to a component as an object, so you need to access them as properties of that object.

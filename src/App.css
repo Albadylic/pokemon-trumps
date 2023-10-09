@@ -11,3 +11,11 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
+
+.player_stat {
+  cursor: pointer;
+}
+
+.player_stat :hover {
+  background-color: lightgreen;
+}

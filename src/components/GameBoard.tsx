@@ -32,7 +32,13 @@ const GameBoard: FC = () => {
   return (
     <section className="GameBoard">
       {apiData && <Card data={apiData} />}
+      {/* 
+      
+      Separate component to be made for the opponentCard vs. the above playerCard
+      
       {apiData && <Card data={apiData} />}
+      
+      */}
     </section>
   );
 };
