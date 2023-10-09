@@ -3,7 +3,8 @@ import PlayerCard from "./PlayerCard";
 import OpponentCard from "./OpponentCard";
 
 const GameBoard: FC = () => {
-  const [apiData, setApiData] = useState(null);
+  const [playerPokemon, setPlayerPokemon] = useState(null);
+  const [opponentPokemon, setOpponentPokemon] = useState(null);
   const [playerChoice, setPlayerChoice] = useState<string | null>(null);
 
   function randomID() {
@@ -12,17 +13,27 @@ const GameBoard: FC = () => {
 
   useEffect(() => {
     async function getPokemon() {
-      const id: string = String(randomID());
-      const url: string = `https://pokeapi.co/api/v2/pokemon/${id}`;
+      const playerID: string = String(randomID());
+      const opponentID: string = String(randomID());
+
+      const url: string = `https://pokeapi.co/api/v2/pokemon/`;
 
       try {
-        const response = await fetch(url);
+        const playerResponse = await fetch(`${url}${playerID}`);
 
-        if (!response.ok) {
-          throw new Error("Bad response");
+        if (!playerResponse.ok) {
+          throw new Error("Bad playerResponse");
         }
-        const data = await response.json();
-        setApiData(data);
+        const playerData = await playerResponse.json();
+        setPlayerPokemon(playerData);
+
+        const opoonentResponse = await fetch(`${url}${opponentID}`);
+
+        if (!opoonentResponse.ok) {
+          throw new Error("Bad opponentResponse");
+        }
+        const opponentData = await opoonentResponse.json();
+        setOpponentPokemon(opponentData);
       } catch (error) {
         console.error("Error fetching data: ", error);
       }
@@ -33,11 +44,13 @@ const GameBoard: FC = () => {
 
   return (
     <section className="GameBoard">
-      {apiData && (
-        <PlayerCard data={apiData} setPlayerChoice={setPlayerChoice} />
+      {playerPokemon && (
+        <PlayerCard data={playerPokemon} setPlayerChoice={setPlayerChoice} />
       )}
 
-      {apiData && <OpponentCard data={apiData} playerChoice={playerChoice} />}
+      {opponentPokemon && (
+        <OpponentCard data={opponentPokemon} playerChoice={playerChoice} />
+      )}
     </section>
   );
 };

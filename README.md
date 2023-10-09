@@ -39,3 +39,49 @@ When definining a React Component, we need to destructure props. Why is this?
 Destructuring is a convenient way to access specific properties from an object, in this case, the props object. It makes the code more readable and can save you from typing props. multiple times. However, it's not required – you can always use props.name if you prefer.
 
 Remember that props are passed to a component as an object, so you need to access them as properties of that object.
+
+## Rendering two different Pokemon
+
+```tsx
+const GameBoard: FC = () => {
+  const [apiData, setApiData] = useState(null);
+  const [playerChoice, setPlayerChoice] = useState<string | null>(null);
+
+  function randomID() {
+    return Math.floor(Math.random() * 151);
+  }
+
+  useEffect(() => {
+    async function getPokemon() {
+      const id: string = String(randomID());
+      const url: string = `https://pokeapi.co/api/v2/pokemon/${id}`;
+
+      try {
+        const response = await fetch(url);
+
+        if (!response.ok) {
+          throw new Error("Bad response");
+        }
+        const data = await response.json();
+        setApiData(data);
+      } catch (error) {
+        console.error("Error fetching data: ", error);
+      }
+    }
+
+    getPokemon();
+  }, []);
+
+  return (
+    <section className="GameBoard">
+      {apiData && (
+        <PlayerCard data={apiData} setPlayerChoice={setPlayerChoice} />
+      )}
+
+      {apiData && <OpponentCard data={apiData} playerChoice={playerChoice} />}
+    </section>
+  );
+};
+```
+
+to this
