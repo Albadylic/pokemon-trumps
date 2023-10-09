@@ -2,7 +2,11 @@ import { FC, useState, useEffect } from "react";
 import PlayerCard from "./PlayerCard";
 import OpponentCard from "./OpponentCard";
 
-const GameBoard: FC = () => {
+interface GameBoardProps {
+  setGameStarted: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const GameBoard: FC<GameBoardProps> = ({ setGameStarted }) => {
   const [playerPokemon, setPlayerPokemon] = useState(null);
   const [opponentPokemon, setOpponentPokemon] = useState(null);
   const [playerChoice, setPlayerChoice] = useState<string | null>(null);
@@ -50,6 +54,13 @@ const GameBoard: FC = () => {
 
       {opponentPokemon && (
         <OpponentCard data={opponentPokemon} playerChoice={playerChoice} />
+      )}
+
+      {playerChoice && (
+        <div>
+          <p>You won / lost</p>
+          <button onClick={() => setGameStarted(false)}>Play again</button>
+        </div>
       )}
     </section>
   );

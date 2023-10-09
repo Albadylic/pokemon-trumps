@@ -85,3 +85,70 @@ const GameBoard: FC = () => {
 ```
 
 to this
+
+```tsx
+const GameBoard: FC = () => {
+  const [playerPokemon, setPlayerPokemon] = useState(null);
+  const [opponentPokemon, setOpponentPokemon] = useState(null);
+  const [playerChoice, setPlayerChoice] = useState<string | null>(null);
+
+  function randomID() {
+    return Math.floor(Math.random() * 151);
+  }
+
+  useEffect(() => {
+    async function getPokemon() {
+      const playerID: string = String(randomID());
+      const opponentID: string = String(randomID());
+
+      const url: string = `https://pokeapi.co/api/v2/pokemon/`;
+
+      try {
+        const playerResponse = await fetch(`${url}${playerID}`);
+
+        if (!playerResponse.ok) {
+          throw new Error("Bad playerResponse");
+        }
+        const playerData = await playerResponse.json();
+        setPlayerPokemon(playerData);
+
+        const opoonentResponse = await fetch(`${url}${opponentID}`);
+
+        if (!opoonentResponse.ok) {
+          throw new Error("Bad opponentResponse");
+        }
+        const opponentData = await opoonentResponse.json();
+        setOpponentPokemon(opponentData);
+      } catch (error) {
+        console.error("Error fetching data: ", error);
+      }
+    }
+
+    getPokemon();
+  }, []);
+
+  return (
+    <section className="GameBoard">
+      {playerPokemon && (
+        <PlayerCard data={playerPokemon} setPlayerChoice={setPlayerChoice} />
+      )}
+
+      {opponentPokemon && (
+        <OpponentCard data={opponentPokemon} playerChoice={playerChoice} />
+      )}
+    </section>
+  );
+};
+```
+
+## Comparing the stats, and sensible use of states
+
+So the game starts when the user clicks play, this sets `gameStarted` to `true` and triggers `GameBoard` rendering.
+
+`GameBoard` contains a state for `playerChoice`. This is updated in the playerCard and is used as a placeholder of whether the user has 'played', i.e. made a choice. Once they have, we render the values of the opponent's stats and can determine whether the user has won or lost.
+
+We can compare the stats with use of a playerChoice state, but we'd need it to hold the name and value of the chosen stat. This is relatively easy to set up, then we make the comparison in the opponentCard component.
+
+We would then need to pass up a value to determine the result and display that on the page. We'd like to offer an option to play again.
+
+The problem here, is that we'd need to drill the `setGameStarted` state updater down to the GameBoard.

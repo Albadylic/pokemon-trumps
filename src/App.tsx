@@ -19,7 +19,7 @@ const App: FC = () => {
     <div className="App">
       <Header />
       {gameStarted ? (
-        <GameBoard />
+        <GameBoard setGameStarted={setGameStarted} />
       ) : (
         <PlayButton setGameStarted={setGameStarted} />
       )}
