@@ -3,6 +3,7 @@ import "./App.css";
 
 import Header from "./components/Header";
 import GameBoard from "./components/GameBoard";
+import Footer from "./components/Footer";
 
 interface PlayButtonProps {
   setGameStarted: React.Dispatch<React.SetStateAction<boolean>>;
@@ -23,6 +24,7 @@ const App: FC = () => {
       ) : (
         <PlayButton setGameStarted={setGameStarted} />
       )}
+      <Footer />
     </div>
   );
 };

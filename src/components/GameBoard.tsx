@@ -6,6 +6,9 @@ interface GameBoardProps {
   setGameStarted: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
+/**
+  Types for the stat chosen by the user
+ */
 interface playerChoiceType {
   playerChoiceName: string | null;
   playerChoiceValue: number | null;
