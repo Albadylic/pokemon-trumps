@@ -31,9 +31,23 @@ const OpponentCard: FC<CardProps> = ({
   setGameOutcome,
 }) => {
   const compareValues = () => {
-    // Compare the value of the player's chosen stat to that of the opponent
-    // setGameOutcome to win / lose
+    const playerStat = playerChoice?.playerChoiceName;
+    const playerValue = playerChoice?.playerChoiceValue;
+
+    let opponentValue = data.stats.filter((obj) => {
+      return obj.stat.name === playerStat;
+    })[0]["base_stat"];
+
+    if (playerValue !== null && playerValue !== undefined) {
+      return playerValue > opponentValue ? "win" : "lose";
+    }
+
+    return null;
   };
+
+  if (playerChoice) {
+    setGameOutcome(compareValues());
+  }
 
   const stats = data.stats.map((item, index) => {
     return playerChoice ? (

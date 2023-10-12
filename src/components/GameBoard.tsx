@@ -19,8 +19,6 @@ const GameBoard: FC<GameBoardProps> = ({ setGameStarted }) => {
   );
   const [gameOutcome, setGameOutcome] = useState<string | null>(null);
 
-  console.log(playerChoice);
-
   function randomID() {
     return Math.floor(Math.random() * 151);
   }
@@ -57,26 +55,27 @@ const GameBoard: FC<GameBoardProps> = ({ setGameStarted }) => {
   }, []);
 
   return (
-    <section className="GameBoard">
-      {playerPokemon && (
-        <PlayerCard data={playerPokemon} setPlayerChoice={setPlayerChoice} />
-      )}
+    <>
+      <section className="GameBoard">
+        {playerPokemon && (
+          <PlayerCard data={playerPokemon} setPlayerChoice={setPlayerChoice} />
+        )}
 
-      {opponentPokemon && (
-        <OpponentCard
-          data={opponentPokemon}
-          playerChoice={playerChoice}
-          setGameOutcome={setGameOutcome}
-        />
-      )}
-
+        {opponentPokemon && (
+          <OpponentCard
+            data={opponentPokemon}
+            playerChoice={playerChoice}
+            setGameOutcome={setGameOutcome}
+          />
+        )}
+      </section>
       {gameOutcome && (
-        <div>
-          <p>You won / lost</p>
+        <section>
+          <p>You {gameOutcome}</p>
           <button onClick={() => setGameStarted(false)}>Play again</button>
-        </div>
+        </section>
       )}
-    </section>
+    </>
   );
 };
 
