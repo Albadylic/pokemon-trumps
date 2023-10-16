@@ -22,7 +22,11 @@ interface apiShape {
       name: string;
     };
   }[];
-  types: object[];
+  types: {
+    type: {
+      name: string;
+    };
+  }[];
 }
 
 const OpponentCard: FC<CardProps> = ({
@@ -63,8 +67,10 @@ const OpponentCard: FC<CardProps> = ({
     );
   });
 
+  const type = data.types[0].type.name;
+
   return (
-    <article className="Card_container">
+    <article className={`Card_container ${type}-type`}>
       <h2>{data.name}</h2>
       <img src={data.sprites.front_default} alt={`sprite for ${data.name}`} />
       <div className="Card_stats">{stats}</div>

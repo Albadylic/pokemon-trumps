@@ -20,6 +20,7 @@ const GameBoard: FC<GameBoardProps> = ({ setGameStarted }) => {
   const [playerChoice, setPlayerChoice] = useState<playerChoiceType | null>(
     null
   );
+
   const [gameOutcome, setGameOutcome] = useState<string | null>(null);
 
   function randomID() {
@@ -73,7 +74,7 @@ const GameBoard: FC<GameBoardProps> = ({ setGameStarted }) => {
         )}
       </section>
       {gameOutcome && (
-        <section>
+        <section className="game_outcome">
           <p>You {gameOutcome}</p>
           <button onClick={() => setGameStarted(false)}>Play again</button>
         </section>

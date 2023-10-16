@@ -1,15 +1,100 @@
+:root {
+  /* Grass Type */
+  --grass-primary: #4e8234; /* Main Green */
+  --grass-secondary: #8bbe8a; /* Light Green */
+
+  /* Fire Type */
+  --fire-primary: #e73b0c; /* Flame Red */
+  --fire-secondary: #ffac4a; /* Bright Orange */
+
+  /* Water Type */
+  --water-primary: #3b9ad9; /* Deep Blue */
+  --water-secondary: #75bff4; /* Light Blue */
+
+  /* Electric Type */
+  --electric-primary: #f9cf30; /* Yellow */
+  --electric-secondary: #ffea70; /* Light Yellow */
+
+  /* Psychic Type */
+  --psychic-primary: #f85778; /* Pinkish Red */
+  --psychic-secondary: #ffc5e0; /* Light Pink */
+
+  /* Normal Type */
+  --normal-primary: #a9a878; /* Greyish Brown */
+  --normal-secondary: #c6c6a7; /* Light Grey */
+
+  /* Fighting Type */
+  --fighting-primary: #7c3946; /* Maroon */
+  --fighting-secondary: #bc8f8f; /* Light Maroon */
+
+  /* Flying Type */
+  --flying-primary: #a890f0; /* Violet */
+  --flying-secondary: #c3b1d1; /* Light Violet */
+
+  /* Ground Type */
+  --ground-primary: #d9bf77; /* Sandy Brown */
+  --ground-secondary: #f0ecc3; /* Light Sandy Brown */
+
+  /* Rock Type */
+  --rock-primary: #a18a6d; /* Dark Grey */
+  --rock-secondary: #c9bbb0; /* Light Grey Brown */
+
+  /* Bug Type */
+  --bug-primary: #a8b820; /* Olive Green */
+  --bug-secondary: #c6d16e; /* Light Olive Green */
+
+  /* Poison Type */
+  --poison-primary: #923978; /* Purple */
+  --poison-secondary: #c183c1; /* Light Purple */
+
+  /* Steel Type */
+  --steel-primary: #b8b8d0; /* Light Blue Grey */
+  --steel-secondary: #d1d1e0; /* Lighter Blue Grey */
+
+  /* Ghost Type */
+  --ghost-primary: #55416d; /* Dark Purple */
+  --ghost-secondary: #8575a5; /* Light Purple */
+
+  /* Dark Type */
+  --dark-primary: #49392f; /* Brownish Black */
+  --dark-secondary: #a29288; /* Light Brownish Black */
+
+  /* Dragon Type */
+  --dragon-primary: #7038f8; /* Purple Blue */
+  --dragon-secondary: #a292bc; /* Light Purple Blue */
+
+  /* Ice Type */
+  --ice-primary: #70a4f9; /* Light Blue */
+  --ice-secondary: #b4e1ff; /* Very Light Blue */
+
+  /* Fairy Type */
+  --fairy-primary: #f0b6bc; /* Light Pink */
+  --fairy-secondary: #ffdae8; /* Very Light Pink */
+}
+
 .App {
   text-align: center;
 }
 
-.App-header {
+header,
+footer,
+footer > p,
+footer > p > a,
+.game_outcome {
   background-color: #282c34;
+  color: white;
+}
+
+footer {
+  bottom: 0;
+  position: fixed;
+  width: 100%;
+}
+
+header {
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
 .player_stat {
@@ -17,7 +102,7 @@
 }
 
 .player_stat :hover {
-  background-color: lightgreen;
+  background-color: white;
 }
 
 .GameBoard {
@@ -26,5 +111,153 @@
 }
 
 .GameBoard > article {
-  width: 45%;
+  width: 35vw;
+  border-radius: 5%;
+  margin: 1em;
+}
+
+.game_container {
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.game_outcome {
+  position: fixed;
+  top: 45vh;
+  width: 20vw;
+  z-index: 1;
+  padding: 1em;
+  border-radius: 5%;
+}
+
+button {
+  border: 0.25em solid #aaaaaa;
+  padding: 1em;
+  border-radius: 10%;
+  font-size: 1rem;
+  background-color: white;
+  cursor: pointer;
+}
+
+.play_button {
+  width: 20vw;
+  background-color: #282c34;
+  color: white;
+}
+
+/* 
+
+--- Colours for each card ---
+
+*/
+
+/* Grass Type */
+.grass-type {
+  background: var(--grass-primary);
+  border: 0.5em solid var(--grass-secondary);
+}
+
+/* Fire Type */
+.fire-type {
+  background: var(--fire-primary);
+  border: 0.5em solid var(--fire-secondary);
+}
+
+/* Water Type */
+.water-type {
+  background: var(--water-primary);
+  border: 0.5em solid var(--water-secondary);
+}
+
+/* Electric Type */
+.electric-type {
+  background: var(--electric-primary);
+  border: 0.5em solid var(--electric-secondary);
+}
+
+/* Psychic Type */
+.psychic-type {
+  background: var(--psychic-primary);
+  border: 0.5em solid var(--psychic-secondary);
+}
+
+/* Normal Type */
+.normal-type {
+  background: var(--normal-primary);
+  border: 0.5em solid var(--normal-secondary);
+}
+
+/* Fighting Type */
+.fighting-type {
+  background: var(--fighting-primary);
+  border: 0.5em solid var(--fighting-secondary);
+}
+
+/* Flying Type */
+.flying-type {
+  background: var(--flying-primary);
+  border: 0.5em solid var(--flying-secondary);
+}
+
+/* Ground Type */
+.ground-type {
+  background: var(--ground-primary);
+  border: 0.5em solid var(--ground-secondary);
+}
+
+/* Rock Type */
+.rock-type {
+  background: var(--rock-primary);
+  border: 0.5em solid var(--rock-secondary);
+}
+
+/* Bug Type */
+.bug-type {
+  background: var(--bug-primary);
+  border: 0.5em solid var(--bug-secondary);
+}
+
+/* Poison Type */
+.poison-type {
+  background: var(--poison-primary);
+  border: 0.5em solid var(--poison-secondary);
+}
+
+/* Steel Type */
+.steel-type {
+  background: var(--steel-primary);
+  border: 0.5em solid var(--steel-secondary);
+}
+
+/* Ghost Type */
+.ghost-type {
+  background: var(--ghost-primary);
+  border: 0.5em solid var(--ghost-secondary);
+}
+
+/* Dark Type */
+.dark-type {
+  background: var(--dark-primary);
+  border: 0.5em solid var(--dark-secondary);
+}
+
+/* Dragon Type */
+.dragon-type {
+  background: var(--dragon-primary);
+  border: 0.5em solid var(--dragon-secondary);
+}
+
+/* Ice Type */
+.ice-type {
+  background: var(--ice-primary);
+  border: 0.5em solid var(--ice-secondary);
+}
+
+/* Fairy Type */
+.fairy-type {
+  background: var(--fairy-primary);
+  border: 0.5em solid var(--fairy-secondary);
 }

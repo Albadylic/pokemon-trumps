@@ -10,7 +10,11 @@ interface PlayButtonProps {
 }
 
 const PlayButton: FC<PlayButtonProps> = ({ setGameStarted }) => {
-  return <button onClick={() => setGameStarted(true)}>Play</button>;
+  return (
+    <button onClick={() => setGameStarted(true)} className="play_button">
+      Play
+    </button>
+  );
 };
 
 const App: FC = () => {
@@ -19,11 +23,13 @@ const App: FC = () => {
   return (
     <div className="App">
       <Header />
-      {gameStarted ? (
-        <GameBoard setGameStarted={setGameStarted} />
-      ) : (
-        <PlayButton setGameStarted={setGameStarted} />
-      )}
+      <section className="game_container">
+        {gameStarted ? (
+          <GameBoard setGameStarted={setGameStarted} />
+        ) : (
+          <PlayButton setGameStarted={setGameStarted} />
+        )}
+      </section>
       <Footer />
     </div>
   );
