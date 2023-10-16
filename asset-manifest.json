@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/pokemon-trumps/static/css/main.0ce4ba1e.css",
+    "main.js": "/pokemon-trumps/static/js/main.5386eb1e.js",
+    "static/js/787.7d1d5a68.chunk.js": "/pokemon-trumps/static/js/787.7d1d5a68.chunk.js",
+    "index.html": "/pokemon-trumps/index.html",
+    "main.0ce4ba1e.css.map": "/pokemon-trumps/static/css/main.0ce4ba1e.css.map",
+    "main.5386eb1e.js.map": "/pokemon-trumps/static/js/main.5386eb1e.js.map",
+    "787.7d1d5a68.chunk.js.map": "/pokemon-trumps/static/js/787.7d1d5a68.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.0ce4ba1e.css",
+    "static/js/main.5386eb1e.js"
+  ]
+}
