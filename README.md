@@ -154,3 +154,38 @@ We would then need to pass up a value to determine the result and display that o
 The problem here, is that we'd need to drill the `setGameStarted` state updater down to the GameBoard.
 
 I decided to have two states, one for the playerchoice and one for the gameoutcome
+
+## Dynamic card colours
+
+I wanted each of the cards to be coloured based on the Pokémon's type. The border of the card would be an accent colour and the background a different colour.
+
+I asked ChatGPT to give me a list of colours corresponding to each Pokémon type. More recently, I've come across using examples to steer the response. I used this in order to get the colours as CSS variables. This was my prompt:
+
+> Please give me a list of colours (hex codes) for each type of Pokemon, there should be one main colour and an accent colour for each type.
+>
+> List the colours as follows:
+>
+> --grass-primary: [HEX CODE]
+>
+> --grass-secondar: [HEX CODE]
+
+I got the output in a format that I could then paste into my `:root` rules in CSS.
+
+Then, I asked for a set of rules to colour each card with the CSS variables I'd already defined. My prompt here was:
+
+> Please write a set of CSS properties which will apply to a set of classes. There will be one class for each type of Pokemon.
+>
+> For example:
+>
+> ```
+> .grass-type {
+> background: var(--grass-primary)
+> border: 0.5em solid var(--grass-secondary);
+> }
+> ```
+
+Which gave me a set of classes, these can be assigned to the card components with the following for the `className`:
+
+```js
+className={`Card_container ${type}-type`}
+```
