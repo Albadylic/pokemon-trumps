@@ -33,7 +33,7 @@ interface apiShape {
 const PlayerCard: FC<CardProps> = ({ data, setPlayerChoice }) => {
   const stats = data.stats.map((item, index) => {
     return (
-      <span
+      <div
         key={index}
         className="player_stat"
         onClick={() =>
@@ -43,10 +43,9 @@ const PlayerCard: FC<CardProps> = ({ data, setPlayerChoice }) => {
           })
         }
       >
-        <p>
-          {item.stat.name}: {item.base_stat}
-        </p>
-      </span>
+        <p>{item.stat.name}: </p>
+        <p>{item.base_stat}</p>
+      </div>
     );
   });
 

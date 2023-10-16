@@ -97,27 +97,20 @@ header {
   justify-content: center;
 }
 
-.player_stat {
-  cursor: pointer;
-}
-
-.player_stat :hover {
-  background-color: white;
-}
-
 .GameBoard {
   display: flex;
   flex-wrap: wrap;
 }
 
 .GameBoard > article {
-  width: 35vw;
+  min-width: 250px;
+  max-width: 350px;
   border-radius: 5%;
   margin: 1em;
 }
 
 .game_container {
-  height: 80vh;
+  min-height: 80vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -146,6 +139,22 @@ button {
   width: 20vw;
   background-color: #282c34;
   color: white;
+}
+
+.player_stat,
+.opponent_stat {
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.player_stat:hover {
+  background-color: white;
+}
+
+.player_stat > p,
+.opponent_stat > p {
+  margin: 0.25em 0.5em;
 }
 
 /* 

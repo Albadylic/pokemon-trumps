@@ -55,15 +55,15 @@ const OpponentCard: FC<CardProps> = ({
 
   const stats = data.stats.map((item, index) => {
     return playerChoice ? (
-      <span key={index} className="opponent_stat">
-        <p>
-          {item.stat.name}: {item.base_stat}
-        </p>
-      </span>
+      <div key={index} className="opponent_stat">
+        <p>{item.stat.name}: </p>
+        <p>{item.base_stat}</p>
+      </div>
     ) : (
-      <span key={index} className="opponent_stat">
-        <p>{item.stat.name}: ??</p>
-      </span>
+      <div key={index} className="opponent_stat">
+        <p>{item.stat.name}: </p>
+        <p>??</p>
+      </div>
     );
   });
 
