@@ -30,7 +30,9 @@ App will hold a state for whether the game has started, and the main components.
 
 ## Double load issue
 
-When the cards render, the useEffect runs twice. One pokemon appears briefly before a second is rendered
+When the cards render, the useEffect runs twice. One pokemon appears briefly before a second is rendered.
+
+[This is explained](https://www.reddit.com/r/reactjs/comments/ugzopd/why_is_my_fetch_getting_called_twice/) as happening on the local version because of Strict Mode. I'll deploy and have a look!
 
 ## Destructuring
 
@@ -141,6 +143,8 @@ const GameBoard: FC = () => {
 };
 ```
 
+Question: Would it be better practice to do two separate effects?
+
 ## Comparing the stats, and sensible use of states
 
 So the game starts when the user clicks play, this sets `gameStarted` to `true` and triggers `GameBoard` rendering.
@@ -153,7 +157,13 @@ We would then need to pass up a value to determine the result and display that o
 
 The problem here, is that we'd need to drill the `setGameStarted` state updater down to the GameBoard.
 
-I decided to have two states, one for the playerchoice and one for the gameoutcome
+I decided to have two states, one for the playerchoice and one for the gameoutcome.
+
+It wasn't as complex as I initially though it'd be. The App layer only needs the `gameStarted` state, this get fed to the GameBoard and PlayButton which respectively set the state to false (to reset the game) or true (to start the game).
+
+In the Gameboard, the `playerChoice` state is defined. The set function is passed to the `PlayerCard` and is used to define which stat and it's value, once the player has clicked a stat. In the `opponentCard` the calculation is made on whether the player's chosen state has a higher value than the opponent's Pokémon.
+
+We then set the `gameOutcome` based on the comparison inside the `OpponentCard` component. That is read within the `GameBoard` and, when true, renders a callout to say whether the player has won or lost.
 
 ## Dynamic card colours
 

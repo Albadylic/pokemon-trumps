@@ -43,7 +43,7 @@ const OpponentCard: FC<CardProps> = ({
     })[0]["base_stat"];
 
     if (playerValue !== null && playerValue !== undefined) {
-      return playerValue > opponentValue ? "win" : "lose";
+      return playerValue >= opponentValue ? "win" : "lose";
     }
 
     return null;
