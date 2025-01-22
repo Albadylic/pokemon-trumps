@@ -2,8 +2,30 @@ import { FC, useState, useEffect } from "react";
 import PlayerCard from "./PlayerCard";
 import OpponentCard from "./OpponentCard";
 
+interface cardShape {
+  name: string;
+  sprites: {
+    front_default: string;
+  };
+  stats: {
+    base_stat: number;
+    stat: {
+      name: string;
+    };
+  }[];
+  types: {
+    type: {
+      name: string;
+    };
+  }[];
+}
+
 interface GameBoardProps {
   setGameStarted: React.Dispatch<React.SetStateAction<boolean>>;
+  setPlayerDeck: React.Dispatch<React.SetStateAction<[] | cardShape[]>>;
+  playerDeck: [] | cardShape[];
+  setOpponentDeck: React.Dispatch<React.SetStateAction<[] | cardShape[]>>;
+  opponentDeck: [] | cardShape[];
 }
 
 /**
@@ -22,6 +44,7 @@ const GameBoard: FC<GameBoardProps> = ({ setGameStarted }) => {
   );
 
   const [gameOutcome, setGameOutcome] = useState<string | null>(null);
+  const [score, setScore] = useState<number>(0);
 
   function randomID() {
     return Math.floor(Math.random() * 151);
@@ -76,6 +99,7 @@ const GameBoard: FC<GameBoardProps> = ({ setGameStarted }) => {
           />
         )}
       </section>
+
       {gameOutcome && (
         <section className="game_outcome">
           <p>You {gameOutcome}</p>
