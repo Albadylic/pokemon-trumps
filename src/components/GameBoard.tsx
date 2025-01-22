@@ -62,12 +62,15 @@ const GameBoard: FC<GameBoardProps> = ({ setGameStarted }) => {
     <>
       <section className="GameBoard">
         {playerPokemon && (
-          <PlayerCard data={playerPokemon} setPlayerChoice={setPlayerChoice} />
+          <PlayerCard
+            playerPokemon={playerPokemon}
+            setPlayerChoice={setPlayerChoice}
+          />
         )}
 
         {opponentPokemon && (
           <OpponentCard
-            data={opponentPokemon}
+            opponentPokemon={opponentPokemon}
             playerChoice={playerChoice}
             setGameOutcome={setGameOutcome}
           />

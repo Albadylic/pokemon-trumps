@@ -6,7 +6,7 @@ interface playerChoiceType {
 }
 
 interface CardProps {
-  data: apiShape;
+  opponentPokemon: apiShape;
   playerChoice: playerChoiceType | null;
   setGameOutcome: React.Dispatch<React.SetStateAction<string | null>>;
 }
@@ -30,7 +30,7 @@ interface apiShape {
 }
 
 const OpponentCard: FC<CardProps> = ({
-  data,
+  opponentPokemon,
   playerChoice,
   setGameOutcome,
 }) => {
@@ -38,7 +38,7 @@ const OpponentCard: FC<CardProps> = ({
     const playerStat = playerChoice?.playerChoiceName;
     const playerValue = playerChoice?.playerChoiceValue;
 
-    let opponentValue = data.stats.filter((obj) => {
+    let opponentValue = opponentPokemon.stats.filter((obj) => {
       return obj.stat.name === playerStat;
     })[0]["base_stat"];
 
@@ -53,7 +53,7 @@ const OpponentCard: FC<CardProps> = ({
     setGameOutcome(compareValues());
   }
 
-  const stats = data.stats.map((item, index) => {
+  const stats = opponentPokemon.stats.map((item, index) => {
     return playerChoice ? (
       <div key={index} className="opponent_stat">
         <p>{item.stat.name}: </p>
@@ -67,12 +67,15 @@ const OpponentCard: FC<CardProps> = ({
     );
   });
 
-  const type = data.types[0].type.name;
+  const type = opponentPokemon.types[0].type.name;
 
   return (
     <article className={`Card_container ${type}-type`}>
-      <h2>{data.name}</h2>
-      <img src={data.sprites.front_default} alt={`sprite for ${data.name}`} />
+      <h2>{opponentPokemon.name}</h2>
+      <img
+        src={opponentPokemon.sprites.front_default}
+        alt={`sprite for ${opponentPokemon.name}`}
+      />
       <div className="Card_stats">{stats}</div>
     </article>
   );

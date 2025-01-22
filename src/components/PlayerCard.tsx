@@ -6,7 +6,7 @@ interface playerChoiceType {
 }
 
 interface CardProps {
-  data: apiShape;
+  playerPokemon: apiShape;
   setPlayerChoice: React.Dispatch<
     React.SetStateAction<playerChoiceType | null>
   >;
@@ -30,8 +30,8 @@ interface apiShape {
   }[];
 }
 
-const PlayerCard: FC<CardProps> = ({ data, setPlayerChoice }) => {
-  const stats = data.stats.map((item, index) => {
+const PlayerCard: FC<CardProps> = ({ playerPokemon, setPlayerChoice }) => {
+  const stats = playerPokemon.stats.map((item, index) => {
     return (
       <div
         key={index}
@@ -49,12 +49,15 @@ const PlayerCard: FC<CardProps> = ({ data, setPlayerChoice }) => {
     );
   });
 
-  const type = data.types[0].type.name;
+  const type = playerPokemon.types[0].type.name;
 
   return (
     <article className={`Card_container ${type}-type`}>
-      <h2>{data.name}</h2>
-      <img src={data.sprites.front_default} alt={`sprite for ${data.name}`} />
+      <h2>{playerPokemon.name}</h2>
+      <img
+        src={playerPokemon.sprites.front_default}
+        alt={`sprite for ${playerPokemon.name}`}
+      />
       <div className="Card_stats">{stats}</div>
     </article>
   );
