@@ -8,7 +8,6 @@ interface playerChoiceType {
 interface CardProps {
   opponentPokemon: apiShape;
   playerChoice: playerChoiceType | null;
-  setGameOutcome: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
 interface apiShape {
@@ -29,30 +28,7 @@ interface apiShape {
   }[];
 }
 
-const OpponentCard: FC<CardProps> = ({
-  opponentPokemon,
-  playerChoice,
-  setGameOutcome,
-}) => {
-  const compareValues = () => {
-    const playerStat = playerChoice?.playerChoiceName;
-    const playerValue = playerChoice?.playerChoiceValue;
-
-    let opponentValue = opponentPokemon.stats.filter((obj) => {
-      return obj.stat.name === playerStat;
-    })[0]["base_stat"];
-
-    if (playerValue !== null && playerValue !== undefined) {
-      return playerValue >= opponentValue ? "win" : "lose";
-    }
-
-    return null;
-  };
-
-  if (playerChoice) {
-    setGameOutcome(compareValues());
-  }
-
+const OpponentCard: FC<CardProps> = ({ opponentPokemon, playerChoice }) => {
   const stats = opponentPokemon.stats.map((item, index) => {
     return playerChoice ? (
       <div key={index} className="opponent_stat">
