@@ -1,4 +1,4 @@
-import { FC, useState, useEffect } from "react";
+import { FC, useState, useEffect, useReducer } from "react";
 import PlayerCard from "./PlayerCard";
 import OpponentCard from "./OpponentCard";
 
@@ -36,9 +36,46 @@ interface playerChoiceType {
   playerChoiceValue: number | null;
 }
 
-const GameBoard: FC<GameBoardProps> = ({ setGameStarted }) => {
-  const [playerPokemon, setPlayerPokemon] = useState(null);
-  const [opponentPokemon, setOpponentPokemon] = useState(null);
+function reducer(state: any, action: any) {
+  switch (action.type) {
+    case "SET_DECKS":
+      return {
+        ...state,
+        playerDeck: action.payload.playerDeck,
+        opponentDeck: action.payload.opponentDeck,
+      };
+    case "SET_NEXT_POKEMON":
+      return {
+        ...state,
+        playerPokemon: state.playerDeck[0],
+        opponentPokemon: state.opponentDeck[0],
+        playerDeck: state.playerDeck.slice(1),
+        opponentDeck: state.opponentDeck.slice(1),
+      };
+    default:
+      return state;
+  }
+}
+
+const GameBoard: FC<GameBoardProps> = ({
+  setGameStarted,
+  setPlayerDeck,
+  playerDeck,
+  setOpponentDeck,
+  opponentDeck,
+}) => {
+  const initialState = {
+    playerDeck: playerDeck, // Initial player deck
+    opponentDeck: opponentDeck, // Initial opponent deck
+    playerPokemon: null, // Current player Pokémon
+    opponentPokemon: null, // Current opponent Pokémon
+  };
+
+  const [state, dispatch] = useReducer(reducer, initialState);
+  // const [playerPokemon, setPlayerPokemon] = useState<cardShape | null>(null);
+  // const [opponentPokemon, setOpponentPokemon] = useState<cardShape | null>(
+  //   null
+  // );
   const [playerChoice, setPlayerChoice] = useState<playerChoiceType | null>(
     null
   );
@@ -46,54 +83,29 @@ const GameBoard: FC<GameBoardProps> = ({ setGameStarted }) => {
   const [gameOutcome, setGameOutcome] = useState<string | null>(null);
   const [score, setScore] = useState<number>(0);
 
-  function randomID() {
-    return Math.floor(Math.random() * 151);
-  }
-
   useEffect(() => {
-    async function getPokemon() {
-      const playerID: string = String(randomID());
-      const opponentID: string = String(randomID());
-
-      const url: string = `https://pokeapi.co/api/v2/pokemon/`;
-
-      try {
-        const playerResponse = await fetch(`${url}${playerID}`);
-
-        if (!playerResponse.ok) {
-          throw new Error("Bad playerResponse");
-        }
-        const playerData = await playerResponse.json();
-        setPlayerPokemon(playerData);
-
-        const opoonentResponse = await fetch(`${url}${opponentID}`);
-
-        if (!opoonentResponse.ok) {
-          throw new Error("Bad opponentResponse");
-        }
-        const opponentData = await opoonentResponse.json();
-        setOpponentPokemon(opponentData);
-      } catch (error) {
-        console.error("Error fetching data: ", error);
-      }
+    if (playerDeck.length > 0 && opponentDeck.length > 0) {
+      dispatch({ type: "SET_NEXT_POKEMON" });
+    } else if (playerDeck.length === 0) {
+      setGameOutcome("lose");
+    } else if (opponentDeck.length === 0) {
+      setGameOutcome("win");
     }
-
-    getPokemon();
-  }, []);
+  }, [playerDeck, opponentDeck]);
 
   return (
     <>
       <section className="GameBoard">
-        {playerPokemon && (
+        {state.playerPokemon && (
           <PlayerCard
-            playerPokemon={playerPokemon}
+            playerPokemon={state.playerPokemon}
             setPlayerChoice={setPlayerChoice}
           />
         )}
 
-        {opponentPokemon && (
+        {state.opponentPokemon && (
           <OpponentCard
-            opponentPokemon={opponentPokemon}
+            opponentPokemon={state.opponentPokemon}
             playerChoice={playerChoice}
             setGameOutcome={setGameOutcome}
           />
