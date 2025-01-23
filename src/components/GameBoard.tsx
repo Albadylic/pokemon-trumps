@@ -41,20 +41,16 @@ function reducer(state: any, action: any) {
     case "PLAYER_WIN":
       return {
         ...state,
-        playerDeck: action.payload.playerDeck,
-        opponentDeck: action.payload.opponentDeck,
+        playerDeck: [...state.playerDeck, state.opponentDeck[0]],
       };
     case "OPPONENT_WIN":
       return {
         ...state,
-        playerDeck: action.payload.playerDeck,
-        opponentDeck: action.payload.opponentDeck,
+        opponentDeck: [...state.opponentDeck, state.playerDeck[0]],
       };
     case "SET_NEXT_POKEMON":
       return {
         ...state,
-        playerPokemon: state.playerDeck[0],
-        opponentPokemon: state.opponentDeck[0],
         playerDeck: state.playerDeck.slice(1),
         opponentDeck: state.opponentDeck.slice(1),
       };
@@ -73,8 +69,6 @@ const GameBoard: FC<GameBoardProps> = ({
   const initialState = {
     playerDeck: playerDeck, // Initial player deck
     opponentDeck: opponentDeck, // Initial opponent deck
-    playerPokemon: null, // Current player Pokémon
-    opponentPokemon: null, // Current opponent Pokémon
   };
 
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -97,25 +91,28 @@ const GameBoard: FC<GameBoardProps> = ({
   }, [playerDeck, opponentDeck]);
 
   useEffect(() => {
+    console.log(state.opponentDeck[0]);
     const compareValues = () => {
       const playerStat = playerChoice?.playerChoiceName;
       const playerValue = playerChoice?.playerChoiceValue;
 
-      let opponentValue = state.opponentPokemon.stats.filter((obj: any) => {
+      let opponentValue = state.opponentDeck[0].stats.filter((obj: any) => {
         return obj.stat.name === playerStat;
       })[0]["base_stat"];
 
       if (playerValue !== null && playerValue !== undefined) {
         if (playerValue >= opponentValue) {
           setTurnOutcome(
-            `You win, you receive opponent's ${state.opponentPokemon.name}!`
+            `You win, you receive opponent's ${state.opponentDeck[0].name}!`
           );
           // Pass the opponentCard to the end of playerDeck
+          dispatch({ type: "PLAYER_WIN" });
         } else {
           setTurnOutcome(
-            `You lose, opponent receives your ${state.playerPokemon.name}!`
+            `You lose, opponent receives your ${state.playerDeck[0].name}!`
           );
           // Pass the playerCard to the end of opponentDeck
+          dispatch({ type: "OPPONENT_WIN" });
         }
       }
 
@@ -125,22 +122,23 @@ const GameBoard: FC<GameBoardProps> = ({
     if (playerChoice) {
       compareValues();
       // Set next pokemon - should happen when the decks are changed above
+      dispatch({ type: "SET_NEXT_POKEMON" });
     }
-  }, [playerChoice]);
+  }, [playerChoice, state.opponentDeck, state.playerDeck]);
 
   return (
     <>
       <section className="GameBoard">
-        {state.playerPokemon && (
+        {state.playerDeck[0] && (
           <PlayerCard
-            playerPokemon={state.playerPokemon}
+            playerPokemon={state.playerDeck[0]}
             setPlayerChoice={setPlayerChoice}
           />
         )}
 
-        {state.opponentPokemon && (
+        {state.opponentDeck[0] && (
           <OpponentCard
-            opponentPokemon={state.opponentPokemon}
+            opponentPokemon={state.opponentDeck[0]}
             playerChoice={playerChoice}
           />
         )}
