@@ -1,4 +1,4 @@
-import { FC, useState, useEffect, useReducer } from "react";
+import { FC, useState, useEffect, useCallback } from "react";
 import PlayerCard from "./PlayerCard";
 import OpponentCard from "./OpponentCard";
 
@@ -32,8 +32,6 @@ interface playerChoiceType {
   playerChoiceValue: number | null;
 }
 
-//
-
 const GameBoard: FC<GameBoardProps> = ({ setGameStarted }) => {
   const [playerChoice, setPlayerChoice] = useState<playerChoiceType | null>(
     null
@@ -56,7 +54,7 @@ const GameBoard: FC<GameBoardProps> = ({ setGameStarted }) => {
     return Math.floor(Math.random() * 151) + 1;
   }
 
-  const setCurrentCards = () => {
+  const setCurrentCards = useCallback(() => {
     if (playerDeck.length === 0) {
       setGameOutcome("lose");
     } else if (opponentDeck.length === 0) {
@@ -68,7 +66,7 @@ const GameBoard: FC<GameBoardProps> = ({ setGameStarted }) => {
       setCurrentPlayerCard(playerCard);
       setCurrentOpponentCard(opponentCard);
     }
-  };
+  }, [opponentDeck, playerDeck]);
 
   useEffect(() => {
     async function getPokemon() {
@@ -103,36 +101,12 @@ const GameBoard: FC<GameBoardProps> = ({ setGameStarted }) => {
         setCurrentCards();
       } catch (error) {
         console.error("Error fetching data:", error);
+        setPlayerDeck([]);
+        setOpponentDeck([]);
       }
     }
     getPokemon();
-  }, [deckSize]);
-
-  const compareValues = () => {
-    const playerStat = playerChoice?.playerChoiceName;
-    const playerValue = playerChoice?.playerChoiceValue;
-
-    let opponentValue = currentOpponentCard?.stats.filter((obj: any) => {
-      return obj.stat.name === playerStat;
-    })[0]["base_stat"];
-
-    if (
-      playerValue !== null &&
-      playerValue !== undefined &&
-      opponentValue !== null &&
-      opponentValue !== undefined &&
-      currentPlayerCard !== undefined &&
-      currentOpponentCard !== undefined
-    ) {
-      if (playerValue >= opponentValue) {
-        handleWin("player", currentPlayerCard, currentOpponentCard);
-      } else {
-        handleWin("opponent", currentPlayerCard, currentOpponentCard);
-      }
-    }
-
-    return null;
-  };
+  }, [deckSize, setCurrentCards]);
 
   const handleWin = (
     winner: string,
@@ -156,10 +130,32 @@ const GameBoard: FC<GameBoardProps> = ({ setGameStarted }) => {
     }
   };
 
-  if (playerChoice) {
-    compareValues();
-    // Set next pokemon - should happen when the decks are changed above
-  }
+  useEffect(() => {
+    if (playerChoice) {
+      const playerStat = playerChoice?.playerChoiceName;
+      const playerValue = playerChoice?.playerChoiceValue;
+
+      let opponentValue = currentOpponentCard?.stats.filter((obj: any) => {
+        return obj.stat.name === playerStat;
+      })[0]["base_stat"];
+
+      if (
+        playerValue !== null &&
+        playerValue !== undefined &&
+        opponentValue !== null &&
+        opponentValue !== undefined &&
+        currentPlayerCard !== undefined &&
+        currentOpponentCard !== undefined
+      ) {
+        if (playerValue >= opponentValue) {
+          handleWin("player", currentPlayerCard, currentOpponentCard);
+        } else {
+          handleWin("opponent", currentPlayerCard, currentOpponentCard);
+        }
+      }
+      // Set next pokemon - should happen when the decks are changed above
+    }
+  });
 
   return (
     <>
@@ -182,7 +178,14 @@ const GameBoard: FC<GameBoardProps> = ({ setGameStarted }) => {
       {turnOutcome && (
         <section className="turn_outcome">
           <p>{turnOutcome}</p>
-          <button onClick={() => setTurnOutcome(null)}>Next hand</button>
+          <button
+            onClick={() => {
+              setTurnOutcome(null);
+              setCurrentCards();
+            }}
+          >
+            Next hand
+          </button>
         </section>
       )}
 
